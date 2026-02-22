@@ -1,0 +1,5 @@
+{
+  "name": "TH Consumption Record for Share",
+  "description": "A mobile-first transaction tracker with local on-device storage.",
+  "requestFramePermissions": []
+}

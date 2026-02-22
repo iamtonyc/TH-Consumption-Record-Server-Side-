@@ -1,0 +1,6 @@
+{
+  "appId": "com.transaction.mobile",
+  "appName": "Transaction Mobile",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
