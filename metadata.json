@@ -1,5 +1,5 @@
 {
-  "name": "TH Consumption Record for Share",
+  "name": "TH Consumption Record Server Side DB",
   "description": "A mobile-first transaction tracker with local on-device storage.",
   "requestFramePermissions": []
 }

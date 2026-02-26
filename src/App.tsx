@@ -31,17 +31,19 @@ const FormField = ({ label, children }: { label: string, children: React.ReactNo
   </div>
 );
 
-const getGMT8Date = () => {
+const getLocalDate = () => {
   const now = new Date();
-  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-  return new Date(utc + (8 * 3600000)).toISOString().split('T')[0];
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 };
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<'input' | 'search'>('input');
   
   // Maintenance Form State
-  const [date, setDate] = useState(getGMT8Date());
+  const [date, setDate] = useState(getLocalDate());
   const [category, setCategory] = useState('');
   const [item, setItem] = useState('');
   const [vendor, setVendor] = useState('');
@@ -51,8 +53,8 @@ export default function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Search Form State
-  const [fromDate, setFromDate] = useState(getGMT8Date());
-  const [toDate, setToDate] = useState(getGMT8Date());
+  const [fromDate, setFromDate] = useState(getLocalDate());
+  const [toDate, setToDate] = useState(getLocalDate());
   const [searchCategory, setSearchCategory] = useState('');
   const [searchResults, setSearchResults] = useState<Transaction[] | null>(null);
 
@@ -163,7 +165,7 @@ export default function App() {
       setVendor('');
       setFromAccount('');
       setPaidBy('');
-      setDate(getGMT8Date());
+      setDate(getLocalDate());
       setCurrentPage(1);
     } catch (error) {
       console.error("Failed to add transaction:", error);
@@ -243,7 +245,7 @@ export default function App() {
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
     link.setAttribute('href', url);
-    link.setAttribute('download', `consumption_records_${getGMT8Date()}.csv`);
+    link.setAttribute('download', `consumption_records_${getLocalDate()}.csv`);
     link.style.visibility = 'hidden';
     document.body.appendChild(link);
     link.click();
@@ -450,22 +452,13 @@ export default function App() {
   const inputClasses = "w-full bg-transparent border-none py-1 px-0 text-xs font-bold focus:ring-0 transition-all placeholder:text-zinc-300";
 
   const DateInput = ({ value, onChange, required = false }: { value: string, onChange: (val: string) => void, required?: boolean }) => (
-    <div className="relative">
-      <input 
-        type="text"
-        readOnly
-        value={value}
-        placeholder="YYYY-MM-DD"
-        className={inputClasses}
-      />
-      <input 
-        type="date"
-        required={required}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="absolute inset-0 opacity-0 cursor-pointer"
-      />
-    </div>
+    <input 
+      type="date"
+      required={required}
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      className={inputClasses + " block w-full cursor-pointer"}
+    />
   );
 
   return (
